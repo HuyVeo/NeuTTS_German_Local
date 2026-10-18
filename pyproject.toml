@@ -1,0 +1,15 @@
+[project]
+name = "deutsch-shadowing-master"
+version = "1.0.0"
+description = "Luyện phát âm & Shadowing tiếng Đức bản ngữ với AI STT & Chấm điểm"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "flask>=3.0.0",
+    "flask-cors>=4.0.0",
+    "edge-tts>=7.0.0",
+    "faster-whisper>=1.0.0",
+    "soundfile",
+    "numpy",
+    "python-dotenv",
+]

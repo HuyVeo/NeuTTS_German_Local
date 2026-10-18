@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇩🇪 Deutsch Shadowing Master — Luyện Nghe & Phát Âm Từng Đoạn Tiếng Đức</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-group">
+                    <span class="flag-icon">🇩🇪</span>
+                    <div>
+                        <h1>Deutsch Shadowing Master</h1>
+                        <p class="subtitle">Nghe & Luyện Phát Âm Bất Kỳ Đoạn Nào — AI Whisper STT & Chấm Điểm Chi Tiết</p>
+                    </div>
+                </div>
+                <div class="header-badges">
+                    <span class="badge badge-accent">⚡ Tua & Nghe Từng Đoạn</span>
+                    <span class="badge badge-success">🤖 Whisper STT</span>
+                    <span class="badge badge-warning">🔁 Lặp Đoạn Shadowing</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Sidebar / Settings & Level -->
+            <aside class="sidebar-panel">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h2>📚 Chọn Cấp Độ Luyện Tập</h2>
+                    </div>
+
+                    <!-- Level Tabs -->
+                    <div class="level-tabs" id="levelTabs">
+                        <button class="level-tab active" data-level="A1">A1</button>
+                        <button class="level-tab" data-level="A2">A2</button>
+                        <button class="level-tab" data-level="B1">B1</button>
+                        <button class="level-tab" data-level="B2">B2</button>
+                        <button class="level-tab" data-level="custom">✏️ Tự Nhập</button>
+                    </div>
+
+                    <!-- Lesson List -->
+                    <div class="lesson-list" id="lessonList">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+
+                    <!-- Voice & Rate Settings -->
+                    <div class="settings-group">
+                        <div class="setting-item">
+                            <label for="voiceSelect">🗣️ Giọng đọc bản ngữ</label>
+                            <select id="voiceSelect" class="form-select">
+                                <option value="de-DE-KatjaNeural">Katja (Nữ - Đức chuẩn Hochdeutsch ⭐)</option>
+                                <option value="de-DE-ConradNeural">Conrad (Nam - Đức chuẩn Hochdeutsch ⭐)</option>
+                                <option value="de-DE-AmalaNeural">Amala (Nữ - Truyền cảm)</option>
+                                <option value="de-DE-FlorianMultilingualNeural">Florian (Nam - Tự nhiên)</option>
+                                <option value="de-AT-IngridNeural">Ingrid (Nữ - Áo / Österreich)</option>
+                                <option value="de-CH-JanNeural">Jan (Nam - Thụy Sĩ / Schweiz)</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-label-row">
+                                <label for="speedRange">⚡ Tốc độ nói của bản ngữ</label>
+                                <span id="speedVal" class="speed-badge">0% (Chuẩn)</span>
+                            </div>
+                            <input type="range" id="speedRange" min="-30" max="30" step="5" value="0" class="form-range">
+                            <div class="speed-hint">Khuyên dùng: -15% khi mới tập nghe và bắt chước</div>
+                        </div>
+
+                        <button class="btn btn-primary" id="generateAudioBtn" style="width: 100%; margin-top: 6px;">
+                            <span class="btn-icon">⚡</span> Tạo & Phân Đoạn Âm Thanh
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Shadowing Practice Stage -->
+            <section class="practice-stage">
+                <!-- Custom Input Area (Visible in Custom Mode) -->
+                <div class="card custom-input-card hidden" id="customInputCard">
+                    <h3>✍️ Nhập văn bản tiếng Đức bạn muốn luyện (có thể gồm nhiều câu):</h3>
+                    <textarea id="customTextInput" class="form-textarea" rows="3" placeholder="Nhập văn bản tiếng Đức vào đây... Hệ thống sẽ tự động phân tách thành từng câu để bạn nghe bất kỳ đoạn nào!"></textarea>
+                    <button class="btn btn-secondary" id="applyCustomBtn">Áp dụng văn bản này</button>
+                </div>
+
+                <!-- Active Sentence Card -->
+                <div class="card active-sentence-card">
+                    <div class="card-tag-row">
+                        <span class="lesson-tag" id="currentLessonTag">Bài A1: Giới thiệu bản thân</span>
+                        <span class="step-indicator" id="sentenceIndexTag">Đoạn đang chọn</span>
+                    </div>
+
+                    <!-- Target Text Display -->
+                    <div class="german-text-display">
+                        <p class="german-text" id="targetGermanText">Hallo! Ich heiße Huy und komme aus Vietnam.</p>
+                        <p class="vietnamese-text" id="targetVietnameseText">Xin chào! Tôi tên là Huy và tôi đến từ Việt Nam.</p>
+                    </div>
+
+                    <!-- Advanced Interactive Timeline Audio Player -->
+                    <div class="action-section">
+                        <div class="step-header">
+                            <span class="step-num">1</span>
+                            <h3>Trình phát âm thanh có thanh tua (Tua đến bất kỳ giây nào)</h3>
+                        </div>
+
+                        <div class="player-custom-card">
+                            <audio id="mainAudioPlayer" preload="auto"></audio>
+                            
+                            <!-- Timeline Scrubber -->
+                            <div class="timeline-row">
+                                <span class="time-label" id="currentTimeLabel">00:00</span>
+                                <div class="timeline-track-wrap" id="timelineTrackWrap">
+                                    <div class="timeline-buffer-bar" id="timelineBufferBar"></div>
+                                    <div class="timeline-progress-bar" id="timelineProgressBar"></div>
+                                    <div class="timeline-handle" id="timelineHandle"></div>
+                                </div>
+                                <span class="time-label" id="durationLabel">00:00</span>
+                            </div>
+
+                            <!-- Audio Controls Bar -->
+                            <div class="player-controls-row">
+                                <div class="player-left-group">
+                                    <button class="btn-ctrl" id="rewindBtn" title="Tua lui 3 giây">⏪ -3s</button>
+                                    <button class="btn-play-main" id="playPauseBtn">
+                                        <span id="playIcon">▶️</span>
+                                    </button>
+                                    <button class="btn-ctrl" id="forwardBtn" title="Tua tới 3 giây">⏩ +3s</button>
+                                    <button class="btn-ctrl" id="loopWholeBtn" title="Lặp lại toàn bài">🔁 Lặp</button>
+                                </div>
+
+                                <div class="player-status-center" id="playerStatusText">
+                                    Sẵn sàng phát âm thanh
+                                </div>
+
+                                <div class="player-right-group">
+                                    <span class="speed-select-label">Tốc độ:</span>
+                                    <button class="btn-speed active" data-speed="1.0">1x</button>
+                                    <button class="btn-speed" data-speed="0.8">0.8x</button>
+                                    <button class="btn-speed" data-speed="1.2">1.2x</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Sentence Segments (Nghe bất kỳ đoạn nào) -->
+                    <div class="action-section">
+                        <div class="step-header">
+                            <span class="step-num">2</span>
+                            <h3>🎧 Danh sách từng câu — Bấm để nghe riêng bất kỳ đoạn nào:</h3>
+                        </div>
+                        <div class="sentence-segments-list" id="sentenceSegmentsList">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Record Your Voice (Shadowing) -->
+                    <div class="action-section">
+                        <div class="step-header">
+                            <span class="step-num">3</span>
+                            <h3>Thu âm và nhại theo câu đang chọn (Shadowing)</h3>
+                        </div>
+
+                        <div class="record-control-bar">
+                            <button class="btn btn-record" id="recordBtn">
+                                <span class="record-dot"></span>
+                                <span id="recordBtnText">Bắt đầu thu âm</span>
+                            </button>
+
+                            <div class="record-info">
+                                <span class="record-timer" id="recordTimer">00:00</span>
+                                <div class="audio-wave-anim hidden" id="waveAnim">
+                                    <span></span><span></span><span></span><span></span><span></span>
+                                </div>
+                            </div>
+                            
+                            <span class="record-tip">💡 Thu âm xong nhấn Dừng để AI Whisper chấm điểm ngay!</span>
+                        </div>
+                    </div>
+
+                    <!-- Navigation buttons -->
+                    <div class="nav-button-row">
+                        <button class="btn btn-outline" id="prevSentenceBtn" disabled>⬅️ Câu trước</button>
+                        <button class="btn btn-outline" id="nextSentenceBtn">Câu tiếp theo ➡️</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: AI Scoring & Feedback Result -->
+                <div class="card score-result-card hidden" id="scoreCard">
+                    <div class="card-tag-row">
+                        <span class="badge badge-accent">🎯 KẾT QUẢ ĐÁNH GIÁ PHÁT ÂM</span>
+                        <span class="stt-time-tag" id="sttTimeTag">Xử lý trong 0.8s</span>
+                    </div>
+
+                    <div class="score-summary-grid">
+                        <div class="score-radial-box">
+                            <div class="score-circle" id="scoreCircle">
+                                <span class="score-number" id="scoreNumber">92</span>
+                                <span class="score-unit">%</span>
+                            </div>
+                            <div class="score-rating" id="scoreRating">Ausgezeichnet! ⭐⭐⭐⭐⭐</div>
+                        </div>
+
+                        <div class="score-details-box">
+                            <h4>💬 Nhận xét từ AI:</h4>
+                            <p class="feedback-text" id="feedbackText">Phát âm rất chuẩn xác và tự nhiên!</p>
+
+                            <div class="stat-pills">
+                                <span class="stat-pill success">
+                                    <strong id="correctCount">9</strong> từ chuẩn
+                                </span>
+                                <span class="stat-pill warning">
+                                    <strong id="mispronouncedCount">1</strong> từ sai
+                                </span>
+                                <span class="stat-pill danger">
+                                    <strong id="missingCount">0</strong> từ sót
+                                </span>
+                            </div>
+
+                            <!-- Side-by-side audio playback -->
+                            <div class="compare-audio-row">
+                                <div class="mini-player">
+                                    <span>Nghe lại giọng bạn vừa thu:</span>
+                                    <audio id="userAudioPlayer" controls class="mini-audio"></audio>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Word-by-Word Breakdown -->
+                    <div class="word-breakdown-section">
+                        <h4>🔍 Chi tiết đối chiếu từng từ:</h4>
+                        <p class="breakdown-hint">
+                            <span class="legend-dot correct"></span> Chuẩn &nbsp;|&nbsp;
+                            <span class="legend-dot mispronounced"></span> Phát âm sai / nhầm &nbsp;|&nbsp;
+                            <span class="legend-dot missing"></span> Bị bỏ sót
+                        </p>
+                        <div class="words-container" id="wordsContainer">
+                            <!-- Words injected dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="try-again-row">
+                        <button class="btn btn-secondary" id="retryBtn">🔄 Thu âm lại câu này</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+# ==========================================
+# Python Virtual Environments (Thư viện ảo)
+# ==========================================
+.venv/
+venv/
+env/
+ENV/
+.env.local
+env.bak/
+venv.bak/
+
+# ==========================================
+# Bytecode & Caches
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+# Sensitive Information (Khóa bảo mật, Token)
+# ==========================================
+.env
+*.env
+.env.*
+!.env.example
+
+# ==========================================
+# Generated Media & User Uploads (Audio files)
+# ==========================================
+static/audio/*
+!static/audio/.gitkeep
+static/uploads/*
+!static/uploads/.gitkeep
+outputs/
+*.wav
+*.mp3
+*.webm
+*.ogg
+
+# ==========================================
+# Packaging & Build Artifacts
+# ==========================================
+build/
+dist/
+*.egg-info/
+*.egg
+eggs/
+.eggs/
+
+# ==========================================
+# IDE & System Files
+# ==========================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
